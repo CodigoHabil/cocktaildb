@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 
-
-export const useFetch = ( url:string ) => {
-
+export const useFetch = ( url:string, update:any) => {
     const [state, setState] = useState({
-        data: null,
+        data: [],
         isLoading: true,
         hasError: null,
     })
@@ -19,6 +17,14 @@ export const useFetch = ( url:string ) => {
         const resp = await fetch(url);
         const data = await resp.json();
 
+        if(typeof update == 'function') {
+            update({
+                data,
+                isLoading: false,
+                hasError: null,
+            });
+        }
+
         setState({
             data,
             isLoading: false,
@@ -26,15 +32,12 @@ export const useFetch = ( url:string ) => {
         });
     }
 
-
     useEffect(() => {
         getFetch();
     }, [url])
     
-
-
     return {
-        data:      state.data,
+        data:      [...state.data],
         isLoading: state.isLoading,
         hasError:  state.hasError,
     };

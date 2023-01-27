@@ -5,4 +5,5 @@ export const GlobalContext = createContext({
     user: 'default',
     data:{},
     isLoading: false,
+    search: {value: '', onChange: (e: any) => {}}
 });
