@@ -3,7 +3,7 @@ import { createContext } from 'react';
 export const GlobalContext = createContext({
     cocktails: [],
     user: 'default',
-    data:{},
+    data:[],
     isLoading: false,
     search: {value: '', onChange: (e: any) => {}}
 });

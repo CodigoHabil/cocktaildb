@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <nav className="top-menu">
-      <Container className="d-flex align-center justify-s-b">
+      <Container className="d-flex align-center justify-s-b wrap">
         <Link to="/">
           <Logo />
         </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
               Recipes
             </NavLink>
           </li>
-          <li>{user}</li>
+          <li>EN / ES</li>
         </ul>
       </Container>
     </nav>

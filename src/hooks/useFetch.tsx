@@ -34,6 +34,7 @@ export const useFetch = ( url:string, update:any) => {
 
     useEffect(() => {
         getFetch();
+        console.log('Data was fetched');
     }, [url])
     
     return {

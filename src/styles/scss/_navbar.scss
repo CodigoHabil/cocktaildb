@@ -1,11 +1,18 @@
 .top-menu {
     position: absolute;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .nav-page {
     text-transform: uppercase;
     font-size: 15px;
+    box-sizing: border-box;
+    &:hover {
+        color: #702d2d;
+        border-bottom: #e86f6f 3px solid;
+        transition: 0.4s;
+    }
 }
 .nav-list-page {
     list-style: none;
