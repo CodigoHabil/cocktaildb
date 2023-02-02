@@ -1,22 +1,35 @@
-import React, { useContext } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { GlobalContext } from '../context/GlobalContext'
+import React, { useContext } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
+import { Container } from "./general";
+import { Logo } from "./Logo";
 
 const Navbar = () => {
-  const {user} = useContext(GlobalContext)
-  const path = useLocation().pathname
+  const { user } = useContext(GlobalContext);
+  const path = useLocation().pathname;
 
   return (
-    <nav>
-      <h1 className={path === '/' ? 'home' : path.replace('/','')}>
-        <Link to="/">Cocktail</Link>
-      </h1>
+    <nav className="top-menu">
+      <Container className="d-flex align-center justify-s-b">
+        <Link to="/">
+          <Logo />
+        </Link>
+        <ul className="nav-list-page">
+          <li>
+            <NavLink to="/about" className="nav-page">
+              About
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/cocktails" className="nav-page">
+              Recipes
+            </NavLink>
+          </li>
+          <li>{user}</li>
+        </ul>
+      </Container>
+    </nav>
+  );
+};
 
-      <NavLink to="/about">About</NavLink>
-      <NavLink to="/cocktails">Recipes</NavLink>
-      <p>{user}</p>
-    </nav>  
-  )
-}
-
-export default Navbar
+export default Navbar;
