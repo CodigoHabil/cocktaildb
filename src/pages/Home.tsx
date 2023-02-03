@@ -1,6 +1,7 @@
 import React from 'react'
 import Hero from '../components/Hero/Hero'
 import { SearchInput } from '../components/Input'
+import { Loader } from '../components/Loader'
 import Layout from '../layouts'
 
 const Home = () => {

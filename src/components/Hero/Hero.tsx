@@ -57,6 +57,7 @@ const Subtitle = styled.p`
     font-size: 20px;
     color: var(--primary-color);
     text-align: center;
+    margin-top: 0.5rem;
 `
 
 

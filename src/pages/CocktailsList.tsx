@@ -19,7 +19,9 @@ const CocktailsList = () => {
           onChange={search.onChange}
         />
         {isLoading ? (
-          <div>Loading...</div>
+          <div>Loading...           
+            <span className="loader"></span>
+          </div>
         ) : (
           drinks?.map((drink: any) => {
             console.log("drink", drink);
