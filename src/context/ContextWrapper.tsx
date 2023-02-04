@@ -14,9 +14,11 @@ const initGlobalState = {
   hasError: null,
 };
 
+
 const ContextWrapper = (props: any) => {
   const search = useInput({ type: "text", defaultValue: "" });
   const [state, setState] = useState(initGlobalState);
+  const [currentPost, setCurrentPost] = useState(initial);
 
   useEffect(() => {
     if(search.value === '' || search.value?.length < 3) {
@@ -39,6 +41,15 @@ const ContextWrapper = (props: any) => {
     });
   };
 
+  const getCurrentCocktail = async (id: string) => {
+    let url = `https://api.allorigins.win/raw?url=http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const resp = await fetch(url);
+    const data = await resp.json().catch((err) => {
+      console.log(err);
+    })
+    return data;
+  };
+
   const getFetch = async (url: string) => {
     setState({...state, isLoading:true})
     const resp = await fetch(url);
@@ -59,7 +70,10 @@ const ContextWrapper = (props: any) => {
         ...initial,
         data: state.data ? state.data : {},
         isLoading: state.isLoading,
-        search: { value: search.value, onChange: search.onChange },
+        search: { value: search.value, onChange: search.onChange, type: search.type },
+        getCurrentCocktail,
+        setCurrentPost,
+        currentPost,
       }}
     >
       {props.children}

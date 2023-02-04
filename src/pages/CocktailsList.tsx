@@ -3,9 +3,10 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useContext } from "react";
 import SearchInput from "../components/Input/SearchInput";
 import { Container } from "../components/general";
+import { Link } from "react-router-dom";
 
 const CocktailsList = () => {
-  const { user, data, isLoading, search } = useContext(GlobalContext);
+  const { user, data, isLoading, search, setCurrentPost } = useContext(GlobalContext);
   const drinks = data.drinks
   //console.log("cocktails", data.drinks[0])
   console.log(drinks)
@@ -24,8 +25,7 @@ const CocktailsList = () => {
           </div>
         ) : (
           drinks?.map((drink: any) => {
-            console.log("drink", drink);
-            return <div key={drink.idDrink}>Name: {drink.strDrink}</div>;
+            return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`${drink.idDrink}`}> {drink.strDrink} </Link></div>;
           })
         )}
         {drinks?.length === 0 || drinks == null && <div>No results</div>}

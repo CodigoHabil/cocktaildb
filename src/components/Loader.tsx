@@ -1,6 +1,19 @@
 import styled from "styled-components";
 
-export const Loader = styled.span`
+import React from 'react'
+
+const Loader = () => {
+  return (
+    <div>
+        <span className="loader"></span>
+    </div>
+  )
+}
+
+export {Loader}
+
+
+export const LoaderContainer = styled.span`
           width: 40px;
           height: 98px;
           display: inline-block;
