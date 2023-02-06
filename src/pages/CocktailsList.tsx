@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { Container } from "../components/general";
 import { Link } from "react-router-dom";
 import { IndexSearcher } from "../components/IndexSearcher";
+import { Item } from "../components/List";
+import { Loader } from "../components/Loader";
 
 const CocktailsList = () => {
   const { setCurrentPost } = useContext(GlobalContext);
@@ -30,15 +32,14 @@ const CocktailsList = () => {
       <Container className="page">
         <IndexSearcher letter={letter} setLetter={setLetter}/>
         {isLoading ? (
-          <div>Loading...           
-            <span className="loader"></span>
-          </div>
+          <Loader />
         ) : (
           drinks?.map((drink: any) => {
-            return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`${drink.idDrink}`}> {drink.strDrink} </Link></div>;
+            return <Item key={drink.idDrink}>Drink: <Link onClick={() => setCurrentPost(drink)} to={`${drink.idDrink}`}> {drink.strDrink} </Link></Item>;
           })
         )}
         {drinks?.length === 0 || drinks == null && <div>No results</div>}
+
       </Container>
     </Layout>
   );

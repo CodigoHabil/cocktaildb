@@ -23,6 +23,7 @@ const Home = () => {
   const { user, data, isLoading, search, setCurrentPost } = useContext(GlobalContext);
   const drinks = data.drinks
 
+  
   const dinks = drinks?.map((drink: any) => {
     return <Card  key={drink.idDrink} id={drink.idDrink} title={drink.strDrink} img={drink.strDrinkThumb} cat={drink.strCategory} ingridient={drink.strIngredient1}/>
     //return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`cocktails/${drink.idDrink}`}> {drink.strDrink} </Link></div>;

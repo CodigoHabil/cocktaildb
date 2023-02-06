@@ -34,17 +34,23 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   gap: 5px;
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 `
 
 const Letter = styled.div`
-  padding: 1rem;
-  background-color: antiquewhite;
+
+padding: 1rem;
+  background-color: #ede5e3;
   width: 14px;
   text-align: center;
   height: 14px;
   cursor: pointer;
+  font-weight: 600;
+  color: #363636;
+
   &.active {
-    background-color: red;
+    background-color: var(--primary-color);
+    color: white;
   }
 `
 
