@@ -1,13 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
+import LayoutSinglePage from "../layouts/LayoutSinglePage";
+import {Article} from "../components/Article";
+import BackButton from "../components/BackButton/BackButton";
 
 const Cocktail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { getCurrentCocktail, currentPost } = useContext(GlobalContext);
+  
   const [drink, setDrink] = useState({});
   const [notFound, setNotFound] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentPost == undefined || currentPost?.idDrink != id) {
@@ -17,7 +21,7 @@ const Cocktail = () => {
   }, [id]);
 
   const updateData = async () => {
-    getCurrentCocktail(id).then((res:any) => {
+    getCurrentCocktail(id).then((res: any) => {
       setDrink(res?.drinks[0]);
       if (res === undefined || res === null || res?.drinks === null) {
         setNotFound(true);
@@ -25,15 +29,15 @@ const Cocktail = () => {
     });
   };
 
-
   if (notFound) {
     navigate("/404");
   }
 
   return (
     <>
-      <div>Cocktail</div>
-      <div>It works`{drink.strDrink}`</div>
+      <LayoutSinglePage>
+        <Article drink = {drink} />
+      </LayoutSinglePage>
     </>
   );
 };

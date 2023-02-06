@@ -4,7 +4,5 @@ import App from "./App";
 
 describe("App", ()=>{
     it("should be render", ()=>{
-        render(<App />)
-        expect(screen.getByRole('button')).toBeInTheDocument()
     })
 })

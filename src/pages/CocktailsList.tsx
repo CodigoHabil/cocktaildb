@@ -1,24 +1,34 @@
 import Layout from "../layouts";
 import { GlobalContext } from "../context/GlobalContext";
-import { useContext } from "react";
-import SearchInput from "../components/Input/SearchInput";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "../components/general";
 import { Link } from "react-router-dom";
+import { IndexSearcher } from "../components/IndexSearcher";
 
 const CocktailsList = () => {
-  const { user, data, isLoading, search, setCurrentPost } = useContext(GlobalContext);
-  const drinks = data.drinks
-  //console.log("cocktails", data.drinks[0])
+  const { setCurrentPost } = useContext(GlobalContext);
+  const [letter, setLetter] = useState<string>('A');
+  const [drinks, setDrinks] = useState<any>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchDrinks();
+  },[letter])
+
+  async function fetchDrinks() {
+    let url = `https://api.allorigins.win/raw?url=http://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    setDrinks(data.drinks)
+    setIsLoading(false)
+  }
+
   console.log(drinks)
   return (
     <Layout>
       <Container className="page">
-        <div>CocktailsList</div>
-        <SearchInput
-          type={search.value}
-          value={search.value}
-          onChange={search.onChange}
-        />
+        <IndexSearcher letter={letter} setLetter={setLetter}/>
         {isLoading ? (
           <div>Loading...           
             <span className="loader"></span>
@@ -35,3 +45,7 @@ const CocktailsList = () => {
 };
 
 export default CocktailsList;
+function getFetch(url: string) {
+  throw new Error("Function not implemented.");
+}
+

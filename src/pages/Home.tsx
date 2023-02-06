@@ -6,6 +6,7 @@ import Layout from '../layouts'
 import { Container } from '../components/general'
 import { GlobalContext } from '../context/GlobalContext'
 import { Link } from 'react-router-dom'
+import { ResultTitle } from '../components/Title'
 
 /*
   Todo:
@@ -28,7 +29,7 @@ const Home = () => {
       </Hero>
       <Container>
         {
-          search.value.length < 3 ? <h2>Popular drinks</h2> : <h2>Search results</h2>
+          search.value.length < 3 ? <ResultTitle>Popular drinks</ResultTitle> : <ResultTitle>Search results</ResultTitle>
         }
 
         {isLoading ? (
@@ -38,7 +39,8 @@ const Home = () => {
             return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`cocktails/${drink.idDrink}`}> {drink.strDrink} </Link></div>;
           })
         )}
-
+        
+        {drinks?.length === 0 || drinks == null && <div>No results</div>}
       </Container>
     </Layout>
   )

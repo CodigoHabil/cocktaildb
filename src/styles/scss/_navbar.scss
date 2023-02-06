@@ -2,6 +2,7 @@
     position: absolute;
     width: 100%;
     box-sizing: border-box;
+    background-color: var(--secundary-color);
 }
 
 .nav-page {
@@ -21,5 +22,6 @@
     width: fit-content;
     padding: 0;
     gap: 2rem;
+    margin: 8px 0;
 }   
 

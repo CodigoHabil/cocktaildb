@@ -9,7 +9,7 @@ const Navbar = () => {
   const path = useLocation().pathname;
 
   return (
-    <nav className="top-menu">
+    <nav className={`top-menu ${path === '/' ? 'transparent': ''}`}>
       <Container className="d-flex align-center justify-s-b wrap">
         <Link to="/">
           <Logo />

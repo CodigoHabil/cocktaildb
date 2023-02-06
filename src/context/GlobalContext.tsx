@@ -7,6 +7,6 @@ export const GlobalContext = createContext({
     isLoading: false,
     search: {value: '', onChange: (e: any) => {}, type: 'text'},
     getCurrentCocktail: (id: string) => {},
-    setCurrentPost: ({}) => {},
+    setCurrentPost: (el:any) => {},
     currentPost: {},
 });

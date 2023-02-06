@@ -50,6 +50,10 @@ a {
   flex-wrap: wrap;
 }
 
+.transparent {
+  background: transparent;
+}
+
 @keyframes fill {
   0% {
     box-shadow: 0 0 inset
