@@ -7,6 +7,7 @@ import { Container } from '../components/general'
 import { GlobalContext } from '../context/GlobalContext'
 import { Link } from 'react-router-dom'
 import { ResultTitle } from '../components/Title'
+import { Card, Grid } from '../components/GridCards'
 
 /*
   Todo:
@@ -22,6 +23,12 @@ const Home = () => {
   const { user, data, isLoading, search, setCurrentPost } = useContext(GlobalContext);
   const drinks = data.drinks
 
+  const dinks = drinks?.map((drink: any) => {
+    return <Card  key={drink.idDrink} id={drink.idDrink} title={drink.strDrink} img={drink.strDrinkThumb} cat={drink.strCategory} ingridient={drink.strIngredient1}/>
+    //return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`cocktails/${drink.idDrink}`}> {drink.strDrink} </Link></div>;
+  })
+
+
   return (
     <Layout>
       <Hero>
@@ -35,9 +42,9 @@ const Home = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          drinks?.map((drink: any) => {
-            return <div key={drink.idDrink}>Name: <Link onClick={() => setCurrentPost(drink)} to={`cocktails/${drink.idDrink}`}> {drink.strDrink} </Link></div>;
-          })
+          <Grid>
+            {dinks}
+          </Grid>
         )}
         
         {drinks?.length === 0 || drinks == null && <div>No results</div>}

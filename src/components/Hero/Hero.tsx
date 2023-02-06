@@ -8,7 +8,7 @@ const Hero = (props: { children: string | number | boolean | React.ReactElement<
     <Section>
         <Container>
             <Title>
-                All kind of <span className='highlight'>cocktails</span> in only one place!
+                All kind of <span className='highlight'>cocktails</span> and  <span className='highlight'>drinks</span> in only one place!
             </Title>
             <Subtitle>
                 A database of cocktails, with a search engine to find your favorite drink.
