@@ -1,5 +1,6 @@
 import React from 'react'
 import { BackButton } from '../BackButton';
+import { ShowMore } from '../ShowMore';
 import { Tab } from '../Tab';
 import { ArticleContainer, ImageSection, TextSection, Wrapper } from './Coponents'
 
@@ -33,9 +34,12 @@ const Article = (props: {drink:any}) => {
                     <BackButton/>
                     <h1>{title}</h1>
                     <h3>Ingredients</h3>
-                    <ul>{ingredients}</ul>
+                    { <ul>{ingredients}</ul> }
+      
                     <h3>Instructions</h3>
-                    <div className='instructions-list'>{text}</div>
+                    { (text?.length > 400) ? 
+                        <ShowMore><div className='instructions-list'>{text}</div></ShowMore>
+                        :   <div className='instructions-list'>{text}</div> }
                 </TextSection>
             </ArticleContainer>
         </Wrapper>

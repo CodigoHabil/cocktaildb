@@ -15,7 +15,6 @@ const IndexSearcher = (props:{letter: any, setLetter:(letter: string)=>{}}) => {
   const letters = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i))
 
   useEffect(() => {
-    console.log(currentLetter)
     setLetter(currentLetter)
   }, [currentLetter])
 
