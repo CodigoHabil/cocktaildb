@@ -93,6 +93,15 @@ a {
   animation: fillNeck 2s linear infinite alternate;
 }
 
+._80vh {
+  min-height: 80vh;
+}
+
+
+.m-t-8 {
+  margin-top: 8rem;
+}
+
 @keyframes fill {
   0% { box-shadow: 0 0  inset }
   50% , 100% { box-shadow: 0 -98px inset }

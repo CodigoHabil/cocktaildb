@@ -14,9 +14,9 @@ const Navbar = () => {
     <>
       <nav className={`top-menu ${path === "/" ? "transparent" : ""}`}>
         <Container className="d-flex align-center justify-s-b wrap">
-          <Link to="/">
+          <a href="/">
             <Logo />
-          </Link>
+          </a>
           <ul className="nav-list-page">
             <li>
               <NavLink to="/about" className="nav-page">
