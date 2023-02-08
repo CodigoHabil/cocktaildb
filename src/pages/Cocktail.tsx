@@ -4,11 +4,14 @@ import { GlobalContext } from "../context/GlobalContext";
 import LayoutSinglePage from "../layouts/LayoutSinglePage";
 import {Article} from "../components/Article";
 import BackButton from "../components/BackButton/BackButton";
+import { DrinkContext } from "../context/DrinksContext";
+
 
 const Cocktail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getCurrentCocktail, currentPost } = useContext(GlobalContext);
+  const {status, drinkState, setCocktail} = useContext(DrinkContext);
   
   const [drink, setDrink] = useState({});
   const [notFound, setNotFound] = useState(false);
@@ -17,8 +20,15 @@ const Cocktail = () => {
     if (currentPost == undefined || currentPost?.idDrink != id) {
       updateData();
     }
+    setCocktail(id)
     setDrink(currentPost);
   }, [id]);
+
+
+  console.log("drinkState", drinkState);
+  console.log("drink", drink);
+
+
 
   const updateData = async () => {
     getCurrentCocktail(id).then((res: any) => {
@@ -32,6 +42,7 @@ const Cocktail = () => {
   if (notFound) {
     navigate("/404");
   }
+
 
   return (
     <>

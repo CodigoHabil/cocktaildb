@@ -5,7 +5,7 @@ import { Tab } from '../Tab';
 import { ArticleContainer, ImageSection, TextSection, Wrapper } from './Coponents'
 
 
-const Article = (props: {drink:any}) => {
+const Article = (props: {drink:any} ) => {
     const {drink} = props;
     const {strDrink: title, strInstructions: text, strDrinkThumb: img} = drink;
     const ingredients = [];
@@ -13,7 +13,7 @@ const Article = (props: {drink:any}) => {
     for (let i = 1; i <= 15; i++) {
         if (drink[`strIngredient${i}`]) {
             ingredients.push(
-                <li>
+                <li key={`${drink['idDrink']}${i}`}>
                     {drink[`strIngredient${i}`]} - {drink[`strMeasure${i}`]}
                 </li>
             );
@@ -21,9 +21,7 @@ const Article = (props: {drink:any}) => {
             break;
         }
     }
-    
-
-    //        <Article title={drink.strDrink} text={drink.strInstructions} img={drink.strDrinkThumb} />
+        //        <Article title={drink.strDrink} text={drink.strInstructions} img={drink.strDrinkThumb} />
     return (
         <Wrapper>
             <ArticleContainer>
