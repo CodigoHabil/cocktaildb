@@ -20,6 +20,7 @@ const ContextWrapper = (props: any) => {
   const [state, setState] = useState(initGlobalState);
   const [currentPost, setCurrentPost] = useState(initial);
 
+  /*
   useEffect(() => {
     if(search.value === '' || search.value?.length < 3) {
       setinitial();
@@ -30,7 +31,7 @@ const ContextWrapper = (props: any) => {
     getFetch(url).catch((err) => {
       console.log(err);
     });
-  }, [search.value]);
+  }, [search.value]);*/
   //const {data, hasError, isLoading} = useFetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka')
 
   const setinitial = () => {

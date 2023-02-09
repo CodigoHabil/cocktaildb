@@ -1,5 +1,5 @@
 import Layout from "../layouts";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Container } from "../components/general";
 import { Link } from "react-router-dom";
 import { IndexSearcher } from "../components/IndexSearcher";
@@ -13,15 +13,10 @@ const CocktailsList = () => {
   const response = getDrinksByLetter(letter);
   const {cocktails, loading, error} = response;
 
-  const handleClick = (letter: string) => {
-    setLetter(letter)
-    console.log(letter)
-  }
-
   return (
     <Layout>
       <Container className="page">
-        <IndexSearcher letter={letter} setLetter={handleClick}/>
+        <IndexSearcher letter={letter} setLetter={setLetter}/>
         { error && <div>Something went wrong</div> }        
         {loading ? (
           <Loader />
@@ -37,7 +32,3 @@ const CocktailsList = () => {
 };
 
 export default CocktailsList;
-function getFetch(url: string) {
-  throw new Error("Function not implemented.");
-}
-

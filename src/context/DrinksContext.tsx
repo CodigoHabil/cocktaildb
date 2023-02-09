@@ -1,17 +1,24 @@
 import { createContext, useEffect, useReducer, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 import { useFetch } from "../hooks/useFetch";
+import PopularData from "../data/popular.json";
+
+const setInitial =  {
+  cocktails: PopularData,
+  loading: false,
+  error: false,
+};
+
+
 
 export const DrinkContext = createContext(
   {
     drinkState:{error: false, cocktails: [], cocktail: {}},
-    setCocktail: (id : string) => {},
-    findCocktailsByLetter: (letter : string) => {},
-    findCockail: (id : string) => {},
-
-
 
     getDrinkInfo: (id : string) => {},
     getDrinksByLetter: (letter : string) => {},
+    searchCockails: (searchTerm : string) => {},
+    setInitial: {cocktails: PopularData, loading: false, error: false}
   }
 );
 
@@ -28,9 +35,10 @@ const drinkReducer = (state: any, action: { type: any; payload: any; }) => {
   } 
 }
 
+
 const URL = import.meta.env.VITE_API_URL;
 
-export const DrinkContextWrapper = ({ children }) => {
+export const DrinkContextWrapper = (props:{ children: any }) => {
   const[status, setStatus] = useState("initial");
   const [drinkState, dispatch] = useReducer(drinkReducer, {hello: "world", error: false, cocktails:[]});
 
@@ -57,15 +65,14 @@ export const DrinkContextWrapper = ({ children }) => {
     }
   }
 
-  const findCockail = async (word : string) => {
-    try {
-      const resp = await fetch(`${URL}/search.php?s=${word}`);
-      const data = await resp.json()
-      dispatch({type: "FETCH_DRINKS_BY_INGREDIENT", payload: data.drinks})
-    } catch (e) {
-      console.log(e)
-      dispatch({type: "FETCH_ERROR", payload: true})
-    }
+
+
+
+  //
+  function searchCockails (word : string) {
+    const debounce = useDebounce(word, 500);  
+    const [cocktails, loading, error ] = useFetch(`${URL}/search.php?s=${debounce}`, debounce);
+    return { cocktails, loading, error };
   }
 
   function getDrinksByLetter(letter : string) {
@@ -80,8 +87,8 @@ export const DrinkContextWrapper = ({ children }) => {
   }
 
   return (
-    <DrinkContext.Provider value={{ drinkState, setCocktail, findCocktailsByLetter, getDrinkInfo, getDrinksByLetter }}>
-      {children}
+    <DrinkContext.Provider value={{ drinkState, getDrinkInfo, getDrinksByLetter, searchCockails, setInitial}}>
+      {props.children}
     </DrinkContext.Provider>
   );
 };

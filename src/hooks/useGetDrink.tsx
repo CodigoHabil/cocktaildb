@@ -14,7 +14,7 @@ export function useGetDrink(url: string, id: any){
                   const response = await fetch(url)
                   const data = await response.json()
                   setCocktail(data.drinks[0])
-              }catch(err){
+              }catch(err: any){
                   setError(err)
               }finally{
                   setLoading(false)
