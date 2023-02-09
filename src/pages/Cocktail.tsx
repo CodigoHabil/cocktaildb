@@ -1,53 +1,32 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { GlobalContext } from "../context/GlobalContext";
 import LayoutSinglePage from "../layouts/LayoutSinglePage";
 import {Article} from "../components/Article";
-import BackButton from "../components/BackButton/BackButton";
 import { DrinkContext } from "../context/DrinksContext";
-
 
 const Cocktail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getCurrentCocktail, currentPost } = useContext(GlobalContext);
-  const {status, drinkState, setCocktail} = useContext(DrinkContext);
+  const {drinkState, setCocktail, findCocktailsByLetter} = useContext(DrinkContext);
   
-  const [drink, setDrink] = useState({});
-  const [notFound, setNotFound] = useState(false);
+  const { cocktail, error } = drinkState
 
   useEffect(() => {
-    if (currentPost == undefined || currentPost?.idDrink != id) {
-      updateData();
-    }
-    setCocktail(id)
-    setDrink(currentPost);
-  }, [id]);
+    setCocktail(id)    
+  },[id] );
 
-
-  console.log("drinkState", drinkState);
-  console.log("drink", drink);
-
-
-
-  const updateData = async () => {
-    getCurrentCocktail(id).then((res: any) => {
-      setDrink(res?.drinks[0]);
-      if (res === undefined || res === null || res?.drinks === null) {
-        setNotFound(true);
-      }
-    });
-  };
-
-  if (notFound) {
+  if (error) {
     navigate("/404");
   }
 
+  if(cocktail == undefined){
+    return <h1>Loading...</h1>
+  }
 
   return (
     <>
       <LayoutSinglePage>
-        <Article drink = {drink} />
+        <Article drink = {cocktail} />
       </LayoutSinglePage>
     </>
   );
