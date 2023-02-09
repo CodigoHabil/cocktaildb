@@ -1,45 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect} from "react";
 
-export const useFetch = ( url:string, update:any) => {
-    const [state, setState] = useState({
-        data: [],
-        isLoading: true,
-        hasError: null,
-    })
-
-    const getFetch = async () => {
-
-        setState({
-            ...state,
-            isLoading: true,
-        });
-
-        const resp = await fetch(url);
-        const data = await resp.json();
-
-        if(typeof update == 'function') {
-            update({
-                data,
-                isLoading: false,
-                hasError: null,
-            });
-        }
-
-        setState({
-            data,
-            isLoading: false,
-            hasError: null,
-        });
-    }
+export const useFetch = (url : string, trigger : any) => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        getFetch();
-        console.log('Data was fetched');
-    }, [url])
-    
-    return {
-        data:      [...state.data],
-        isLoading: state.isLoading,
-        hasError:  state.hasError,
-    };
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch(url, { signal });
+                const data = await response.json();
+                setData(data);
+                setIsLoading(false);
+                setError(false);
+            } catch (err) {
+                if (err.name === "AbortError") {
+                    console.log("Fetch aborted");
+                } else {
+                    setError(true);
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            abortController.abort();
+        };
+    },[trigger, url]);
+    return [ data, isLoading, error ];
 }

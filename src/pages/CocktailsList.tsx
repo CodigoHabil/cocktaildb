@@ -1,5 +1,4 @@
 import Layout from "../layouts";
-import { GlobalContext } from "../context/GlobalContext";
 import { useContext, useEffect, useState } from "react";
 import { Container } from "../components/general";
 import { Link } from "react-router-dom";
@@ -9,36 +8,29 @@ import { Loader } from "../components/Loader";
 import { DrinkContext } from "../context/DrinksContext";
 
 const CocktailsList = () => {
-  const { setCurrentPost } = useContext(GlobalContext);
   const [letter, setLetter] = useState<string>('A');
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const {findCocktailsByLetter, drinkState} = useContext(DrinkContext);
-  const {cocktails, error} = drinkState
+  const { getDrinksByLetter } = useContext(DrinkContext);
+  const response = getDrinksByLetter(letter);
+  const {cocktails, loading, error} = response;
 
-  useEffect(() => {
-    setIsLoading(true)
-    findCocktailsByLetter(letter)
-    setIsLoading(false)
-    return;
-  },[letter])
-
-  if(error) {
-    return <div>Something went wrong</div>
+  const handleClick = (letter: string) => {
+    setLetter(letter)
+    console.log(letter)
   }
 
   return (
     <Layout>
       <Container className="page">
-        <IndexSearcher letter={letter} setIsLoading={setIsLoading} setLetter={setLetter}/>
-        {isLoading ? (
+        <IndexSearcher letter={letter} setLetter={handleClick}/>
+        { error && <div>Something went wrong</div> }        
+        {loading ? (
           <Loader />
         ) : (
-          cocktails?.map((drink: any) => {
-            return <Item key={drink.idDrink}>Drink: <Link onClick={() => setCurrentPost(drink)} to={`${drink.idDrink}`}> {drink.strDrink} </Link></Item>;
+          cocktails?.drinks?.map((drink: any) => {
+            return <Item key={drink.idDrink}>Drink: <Link to={`${drink.idDrink}`}> {drink.strDrink} </Link></Item>;
           })
         )}
-        {cocktails?.length === 0 || cocktails == null && <div>No results</div>}
-
+        { cocktails?.drinks == null && <div>No results</div> }
       </Container>
     </Layout>
   );

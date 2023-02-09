@@ -3,26 +3,21 @@ import styled from 'styled-components'
 import { GlobalContext } from '../../context/GlobalContext'
 
 
-const IndexSearcher = (props:{letter: any, setLetter:(letter: string)=>{}, setIsLoading: any}) => {
+const IndexSearcher = (props:{letter: any, setLetter:(letter: string)=>{}}) => {
   /*
     Todo:
     [X] Create a data structure that will hold letters from A-Z
     [X] Create a function that will take the letter and search for it in the data
   */
-  const {letter, setLetter, setIsLoading} = props
+  const {letter, setLetter} = props
 
   const [currentLetter, setCurrentLetter] = React.useState<string>('A')
   const letters = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i))
 
-  useEffect(() => {
-    setLetter(currentLetter)
-  }, [currentLetter])
-
   const handleClick = (letter: string) => {
-    setIsLoading(true)
     setCurrentLetter(letter)
+    setLetter(letter)
   }
-
 
 
   return (

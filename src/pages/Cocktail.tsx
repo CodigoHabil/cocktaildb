@@ -1,35 +1,42 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
+
 import { useParams, useNavigate } from "react-router-dom";
 import LayoutSinglePage from "../layouts/LayoutSinglePage";
 import {Article} from "../components/Article";
 import { DrinkContext } from "../context/DrinksContext";
 
 const Cocktail = () => {
+  const {getDrinkInfo, getDrinksByLetter} = useContext(DrinkContext);
+
   const { id } = useParams();
   const navigate = useNavigate();
-  const {drinkState, setCocktail, findCocktailsByLetter} = useContext(DrinkContext);
-  
-  const { cocktail, error } = drinkState
+  const { cocktail, error, loading } = getDrinkInfo(id);
 
-  useEffect(() => {
-    setCocktail(id)    
-  },[id] );
 
   if (error) {
     navigate("/404");
   }
 
-  if(cocktail == undefined){
-    return <h1>Loading...</h1>
+  if(loading){
+    return (
+      <>
+        <LayoutSinglePage>
+          <h1>Loading...</h1>
+        </LayoutSinglePage>
+      </>
+    );
+  } 
+
+  if(cocktail.drinks){
+    return (
+      <>
+        <LayoutSinglePage>
+          <Article drink = {cocktail.drinks[0]} />
+        </LayoutSinglePage>
+      </>
+    );
   }
 
-  return (
-    <>
-      <LayoutSinglePage>
-        <Article drink = {cocktail} />
-      </LayoutSinglePage>
-    </>
-  );
 };
 
 export default Cocktail;

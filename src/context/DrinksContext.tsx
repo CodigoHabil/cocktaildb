@@ -1,11 +1,17 @@
 import { createContext, useEffect, useReducer, useState } from "react";
+import { useFetch } from "../hooks/useFetch";
 
 export const DrinkContext = createContext(
   {
     drinkState:{error: false, cocktails: [], cocktail: {}},
     setCocktail: (id : string) => {},
     findCocktailsByLetter: (letter : string) => {},
-    findCockail: (id : string) => {}
+    findCockail: (id : string) => {},
+
+
+
+    getDrinkInfo: (id : string) => {},
+    getDrinksByLetter: (letter : string) => {},
   }
 );
 
@@ -62,8 +68,19 @@ export const DrinkContextWrapper = ({ children }) => {
     }
   }
 
+  function getDrinksByLetter(letter : string) {
+    const [cocktails, loading, error ] = useFetch(`${URL}/search.php?f=${letter}`, letter);
+    return { cocktails, loading, error };
+  }
+
+
+  function getDrinkInfo(id : string){
+    const [cocktail, loading, error ] = useFetch(`${URL}/lookup.php?i=${id}`, id);
+    return { cocktail, loading, error };
+  }
+
   return (
-    <DrinkContext.Provider value={{ drinkState, setCocktail, findCocktailsByLetter, findCockail }}>
+    <DrinkContext.Provider value={{ drinkState, setCocktail, findCocktailsByLetter, getDrinkInfo, getDrinksByLetter }}>
       {children}
     </DrinkContext.Provider>
   );
