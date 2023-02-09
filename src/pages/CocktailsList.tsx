@@ -6,39 +6,38 @@ import { Link } from "react-router-dom";
 import { IndexSearcher } from "../components/IndexSearcher";
 import { Item } from "../components/List";
 import { Loader } from "../components/Loader";
+import { DrinkContext } from "../context/DrinksContext";
 
 const CocktailsList = () => {
   const { setCurrentPost } = useContext(GlobalContext);
   const [letter, setLetter] = useState<string>('A');
-  const [drinks, setDrinks] = useState<any>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const {findCocktailsByLetter, drinkState} = useContext(DrinkContext);
+  const {cocktails, error} = drinkState
 
   useEffect(() => {
     setIsLoading(true)
-    fetchDrinks();
+    findCocktailsByLetter(letter)
+    setIsLoading(false)
+    return;
   },[letter])
 
-  async function fetchDrinks() {
-    let url = `https://api.allorigins.win/raw?url=http://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    setDrinks(data.drinks)
-    setIsLoading(false)
+  if(error) {
+    return <div>Something went wrong</div>
   }
 
-  console.log(drinks)
   return (
     <Layout>
       <Container className="page">
-        <IndexSearcher letter={letter} setLetter={setLetter}/>
+        <IndexSearcher letter={letter} setIsLoading={setIsLoading} setLetter={setLetter}/>
         {isLoading ? (
           <Loader />
         ) : (
-          drinks?.map((drink: any) => {
+          cocktails?.map((drink: any) => {
             return <Item key={drink.idDrink}>Drink: <Link onClick={() => setCurrentPost(drink)} to={`${drink.idDrink}`}> {drink.strDrink} </Link></Item>;
           })
         )}
-        {drinks?.length === 0 || drinks == null && <div>No results</div>}
+        {cocktails?.length === 0 || cocktails == null && <div>No results</div>}
 
       </Container>
     </Layout>
